@@ -2,7 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 50vh;
-    width: 50vh;
+    align-items: center
 }
 
 .row {
@@ -11,8 +11,6 @@ body {
 }
 
 button {
-    flex: 1;
-    padding: 0;
 }
 
 .display {
