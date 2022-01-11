@@ -1,5 +1,5 @@
 
-let num1;
+let num1 = '';
 let num2;
 let temp = '';
 let tempOperator = ''
@@ -15,17 +15,16 @@ number.forEach((button) => {
 const operator = document.querySelectorAll('button.operator');
 operator.forEach((button) => {
   button.addEventListener('click', () => {
-    if (temp == "") {
-      if (tempOperator == '') {
-        tempOperator = button.innerHTML;
-      }
+    //Prevents operator button without numbers presses from breaking calculator
+    if (temp == '' && num1 == '') {
+      
       return;
     }
 
     else {
 
-    
-      if (num1 == undefined) {
+      //If first number hasn't been initialized yet
+      if (num1 == '') {
         num1 = temp; 
         temp = '';
         tempOperator = button.innerHTML;
@@ -34,15 +33,22 @@ operator.forEach((button) => {
       else if (tempOperator == '') {
         tempOperator = button.innerHTML;
       }
+
+      //Calculates result after both numbers have been initialized
+      //User can press any operator to calc current two numbers
+      //Also uses the operator pressed to be used for the next calc
       else {
-        temp = operate(num1, temp, tempOperator) 
-        num1 = '';
+        num1 = operate(num1, temp, tempOperator) 
+        temp = '';
+
+        //If operator is '=', this prevents the logic from failing
         if (button.innerHTML == "=") {
           tempOperator = '';
         }
         else {
           tempOperator = button.innerHTML;
         }
+        display.innerHTML = num1;
         console.log(num1);
       }
       
@@ -94,5 +100,8 @@ const multiply = function(num1, num2) {
 }
 
 const divide = function(num1, num2) {
+  if (num2 == 0) {
+    return alert('You cannot divide by zero');
+  }
   return num1 / num2;
 }
