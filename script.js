@@ -1,6 +1,5 @@
 
 let num1 = '';
-let num2;
 let temp = '';
 let tempOperator = ''
 let display = document.querySelector('.display');
@@ -15,7 +14,7 @@ number.forEach((button) => {
 const operator = document.querySelectorAll('button.operator');
 operator.forEach((button) => {
   button.addEventListener('click', () => {
-    //Prevents operator button without numbers presses from breaking calculator
+    //Prevents operator button without numbers inputted from breaking calculator
     if (temp == '' && num1 == '') {
       return;
     }
@@ -47,7 +46,7 @@ operator.forEach((button) => {
     //User can press any operator to calc current two numbers
     //Also uses the operator pressed to be used for the next calc
     else {
-      operate(num1, temp, tempOperator);
+      num1 = operate(num1, temp, tempOperator);
 
       //If operator is '=', this prevents the logic from failing
       if (button.innerHTML == "=") {
@@ -98,6 +97,7 @@ const operate = function(num1, num2, operator) {
   }
   display.innerHTML = result;
   temp = '';
+  return result;
 }
 
 const add = function(num1, num2) {
