@@ -46,7 +46,7 @@ operator.forEach((button) => {
     //User can press any operator to calc current two numbers
     //Also uses the operator pressed to be used for the next calc
     else {
-      num1 = operate(num1, temp, tempOperator);
+      num1 = operate(num1, tempOperator, temp);
       temp = '';
       tempOperator = button.innerHTML;
       
@@ -65,7 +65,7 @@ equal.addEventListener('click', () => {
     return;
   }
   else {
-  num1 = operate(num1, temp, tempOperator);
+  num1 = operate(num1, tempOperator, temp);
   tempOperator = '';
   temp = '';
   }
@@ -74,8 +74,17 @@ equal.addEventListener('click', () => {
 const operation = document.querySelectorAll('button.operation');
 operation.forEach((button) => {
   button.addEventListener('click', () => {
-    let temp = button.innerHTML;
-    console.log(temp);
+    if (num1 == '' && temp == '') {
+      return;
+    }
+    else if (temp == '') {
+      num1 = operate(num1, button.innerHTML);
+    }
+    else {
+      temp = operate(temp, button.innerHTML);
+    }
+    
+
   });
 });
 
@@ -113,7 +122,8 @@ backspace.addEventListener('click', () => {
 
 
 
-const operate = function(num1, num2, operator) {
+
+const operate = function(num1, operator, num2) {
   num1 = parseFloat(num1);
   num2 = parseFloat(num2);
   let result;
@@ -130,10 +140,25 @@ const operate = function(num1, num2, operator) {
     case "+":
       result = add(num1, num2);
       break;
+    case "1/x":
+      result = inverse(num1);
+      break;
+    case "x^2":
+      result = squared(num1);
+      break;
+    case "√x":
+      result = squareroot(num1);
+      break;
+    case "+/-":
+      result = opposite(num1);
+      break;
   }
+  
   display.innerHTML = result;
   return result;
 }
+
+
 
 const add = function(num1, num2) {
   return num1 + num2;
@@ -152,4 +177,20 @@ const divide = function(num1, num2) {
     return alert('You cannot divide by zero');
   }
   return num1 / num2;
+}
+
+const inverse = function(num1) {
+  return 1 / num1;
+}
+
+const squared = function(num1) {
+  return num1 ** 2;
+}
+
+const squareroot = function(num1) {
+  return Math.sqrt(num1);
+}
+
+const opposite = function(num1) {
+  return num1 * -1;
 }
