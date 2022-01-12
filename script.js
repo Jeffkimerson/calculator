@@ -47,7 +47,7 @@ operator.forEach((button) => {
     //Also uses the operator pressed to be used for the next calc
     else {
       num1 = operate(num1, temp, tempOperator);
-      
+      temp = '';
       tempOperator = button.innerHTML;
       
       console.log(num1);
@@ -55,8 +55,8 @@ operator.forEach((button) => {
       
     
     
-  })
-})
+  });
+});
 
 const equal = document.querySelector('button#equal');
 equal.addEventListener('click', () => {
@@ -67,16 +67,42 @@ equal.addEventListener('click', () => {
   else {
   num1 = operate(num1, temp, tempOperator);
   tempOperator = '';
+  temp = '';
   }
-})
+});
 
 const operation = document.querySelectorAll('button.operation');
 operation.forEach((button) => {
   button.addEventListener('click', () => {
     let temp = button.innerHTML;
     console.log(temp);
-  })
+  });
+});
+
+//Deletes number the display number
+const clearEntry = document.querySelector('button#CE'); 
+clearEntry.addEventListener('click', () => {
+
+  //Edge case for pressing '=' then clearing that calculation
+  if (tempOperator == '' && num1 !== '') {
+    num1 = '';
+    display.innerHTML = num1;
+  }
+  else {
+  temp = '';
+  display.innerHTML = temp;
+  }
+});
+
+//Clears everything
+const clearAll = document.querySelector('button#C');
+clearAll.addEventListener('click', () => {
+  temp = '';
+  num1 = '';
+  tempOperator = '';
+  display.innerHTML = temp;
 })
+
 
 
 const operate = function(num1, num2, operator) {
@@ -98,7 +124,6 @@ const operate = function(num1, num2, operator) {
       break;
   }
   display.innerHTML = result;
-  temp = '';
   return result;
 }
 
