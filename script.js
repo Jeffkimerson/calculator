@@ -124,6 +124,19 @@ backspace.addEventListener('click', () => {
   console.log(temp);
 });
 
+//Add decimal point to number
+let dec = /[.]/;
+const decimal = document.querySelector('button#decimal');
+decimal.addEventListener('click', () => {
+  let displayNum = display.innerHTML;
+  if (displayNum == temp) {
+
+  }
+  else if (displayNum == num1) {
+    
+  }
+})
+
 
 
 
