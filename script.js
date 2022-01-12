@@ -101,7 +101,15 @@ clearAll.addEventListener('click', () => {
   num1 = '';
   tempOperator = '';
   display.innerHTML = temp;
-})
+});
+
+//Deletes last number in display
+const backspace = document.querySelector('button#backspace');
+backspace.addEventListener('click', () => {
+  temp = temp.slice(0, -1);
+  display.innerHTML = temp;
+  console.log(temp);
+});
 
 
 
