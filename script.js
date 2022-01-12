@@ -6,6 +6,14 @@ let display = document.querySelector('.display');
 const number = document.querySelectorAll('button.number');
 number.forEach((button) => {
   button.addEventListener('click', () => {
+
+    //Edge case for if user presses '=' and starts typing a new number
+    //without having pressed an operator
+    if (num1 !== '' && tempOperator == '') {
+      num1 = '';
+    }
+
+    //Displays the number being inputted
     temp += button.innerHTML;
     display.innerHTML = temp;
   });
@@ -26,20 +34,12 @@ operator.forEach((button) => {
       num1 = temp; 
       temp = '';
       tempOperator = button.innerHTML;
-      console.log(tempOperator);
-    }
-    else if (tempOperator == '') {
-      tempOperator = button.innerHTML;
     }
 
-    //Edge case to change operator before second number is initialized
-    else if (tempOperator !== '' && temp == '') {
-      if (tempOperator == '=') {
-        return;
-      }
-      else {
+    //If equal button used, then need to initialize next operator
+    //Or to change operator before second number initialized
+    else if (temp == '') {
       tempOperator = button.innerHTML;
-      }
     }
 
     //Calculates result after both numbers have been initialized
@@ -47,14 +47,9 @@ operator.forEach((button) => {
     //Also uses the operator pressed to be used for the next calc
     else {
       num1 = operate(num1, temp, tempOperator);
-
-      //If operator is '=', this prevents the logic from failing
-      if (button.innerHTML == "=") {
-        tempOperator = '';
-      }
-      else {
-        tempOperator = button.innerHTML;
-      }
+      
+      tempOperator = button.innerHTML;
+      
       console.log(num1);
     }
       
@@ -65,7 +60,14 @@ operator.forEach((button) => {
 
 const equal = document.querySelector('button#equal');
 equal.addEventListener('click', () => {
-  operate(num1, temp, tempOperator);
+  //Edge case for not having all three components for calculation
+  if (temp == '' || tempOperator == '') {
+    return;
+  }
+  else {
+  num1 = operate(num1, temp, tempOperator);
+  tempOperator = '';
+  }
 })
 
 const operation = document.querySelectorAll('button.operation');
