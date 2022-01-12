@@ -22,12 +22,11 @@ number.forEach((button) => {
 const operator = document.querySelectorAll('button.operator');
 operator.forEach((button) => {
   button.addEventListener('click', () => {
-    //Prevents operator button without numbers inputted from breaking calculator
+    //Prevents operator button without numbers inputted from 
+    //breaking calculator
     if (temp == '' && num1 == '') {
       return;
     }
-
-    
 
     //If first number hasn't been initialized yet
     else if (num1 == '') {
@@ -36,7 +35,7 @@ operator.forEach((button) => {
       tempOperator = button.innerHTML;
     }
 
-    //If equal button used, then need to initialize next operator
+    //If equal button was used, then need to initialize next operator
     //Or to change operator before second number initialized
     else if (temp == '') {
       tempOperator = button.innerHTML;
@@ -58,19 +57,8 @@ operator.forEach((button) => {
   });
 });
 
-const equal = document.querySelector('button#equal');
-equal.addEventListener('click', () => {
-  //Edge case for not having all three components for calculation
-  if (temp == '' || tempOperator == '') {
-    return;
-  }
-  else {
-  num1 = operate(num1, tempOperator, temp);
-  tempOperator = '';
-  temp = '';
-  }
-});
-
+//Does the calcuation on the number on display
+//Only does calc on one number so logic is a little different
 const operation = document.querySelectorAll('button.operation');
 operation.forEach((button) => {
   button.addEventListener('click', () => {
@@ -83,10 +71,26 @@ operation.forEach((button) => {
     else {
       temp = operate(temp, button.innerHTML);
     }
-    
-
   });
 });
+
+const equal = document.querySelector('button#equal');
+equal.addEventListener('click', () => {
+  //Edge case for not having all three components for calculation
+  if (temp == '' || tempOperator == '') {
+    return;
+  }
+
+  //Puts the result into first number and display
+  //Sets up for next calc
+  else {
+  num1 = operate(num1, tempOperator, temp);
+  tempOperator = '';
+  temp = '';
+  }
+});
+
+
 
 //Deletes number the display number
 const clearEntry = document.querySelector('button#CE'); 
