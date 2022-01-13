@@ -128,13 +128,20 @@ backspace.addEventListener('click', () => {
 let dec = /[.]/;
 const decimal = document.querySelector('button#decimal');
 decimal.addEventListener('click', () => {
-  let displayNum = display.innerHTML;
-  if (displayNum == temp) {
-
-  }
-  else if (displayNum == num1) {
     
-  }
+    //Edge case for if user presses '=' and starts typing a new number
+    //without having pressed an operator
+    if (num1 !== '' && tempOperator == '') {
+      num1 = '';
+    }
+
+    //If it already has a decimal point, then do nothing
+    if (dec.test(temp)) {
+      return;
+    }
+    //Displays the number being inputted
+    temp += decimal.innerHTML;
+    display.innerHTML = temp;
 })
 
 
@@ -145,7 +152,7 @@ const operate = function(num1, operator, num2) {
   num2 = parseFloat(num2);
   let result;
   switch (operator) {
-    case "/":
+    case "÷":
       result = divide(num1, num2);
       break;
     case "*":
@@ -170,7 +177,7 @@ const operate = function(num1, operator, num2) {
       result = opposite(num1);
       break;
   }
-  
+  result = +result.toFixed(5);
   display.innerHTML = result;
   return result;
 }
