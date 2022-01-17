@@ -159,6 +159,9 @@ const operate = function(num1, operator, num2) {
     case "÷":
       result = divide(num1, num2);
       break;
+    case "/":
+      result = divide(num1, num2);
+      break;
     case "*":
       result = multiply(num1, num2);
       break;
