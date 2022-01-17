@@ -1,28 +1,20 @@
 
-let num1 = '';
-let temp = '';
-let tempOperator = ''
-let display = document.querySelector('.display');
-const number = document.querySelectorAll('button.number');
-number.forEach((button) => {
-  button.addEventListener('click', () => {
 
-    //Edge case for if user presses '=' and starts typing a new number
+
+const numberFunction = function(num) {
+  //Edge case for if user presses '=' and starts typing a new number
     //without having pressed an operator
     if (num1 !== '' && tempOperator == '') {
       num1 = '';
     }
 
     //Displays the number being inputted
-    temp += button.innerHTML;
+    temp += num;
     display.innerHTML = temp;
-  });
-});
+}
 
-const operator = document.querySelectorAll('button.operator');
-operator.forEach((button) => {
-  button.addEventListener('click', () => {
-    //Prevents operator button without numbers inputted from 
+const operatorFunction = function(operator) {
+  //Prevents operator button without numbers inputted from 
     //breaking calculator
     if (temp == '' && num1 == '') {
       return;
@@ -32,13 +24,13 @@ operator.forEach((button) => {
     else if (num1 == '') {
       num1 = temp; 
       temp = '';
-      tempOperator = button.innerHTML;
+      tempOperator = operator;
     }
 
     //If equal button was used, then need to initialize next operator
     //Or to change operator before second number initialized
     else if (temp == '') {
-      tempOperator = button.innerHTML;
+      tempOperator = operator;
     }
 
     //Calculates result after both numbers have been initialized
@@ -47,15 +39,31 @@ operator.forEach((button) => {
     else {
       num1 = operate(num1, tempOperator, temp);
       temp = '';
-      tempOperator = button.innerHTML;
+      tempOperator = operator;
       
-      console.log(num1);
     }
-      
-    
-    
-  });
-});
+}
+
+const backspaceFunction = function() {
+  temp = temp.slice(0, -1);
+  display.innerHTML = temp;
+}
+
+const decimalFunction = function() {
+  //Edge case for if user presses '=' and starts typing a new number
+    //without having pressed an operator
+    if (num1 !== '' && tempOperator == '') {
+      num1 = '';
+    }
+
+    //If it already has a decimal point, then do nothing
+    if (dec.test(temp)) {
+      return;
+    }
+    //Displays the number being inputted
+    temp += decimal.innerHTML;
+    display.innerHTML = temp;
+}
 
 //Does the calcuation on the number on display
 //Only does calc on one number so logic is a little different
@@ -74,8 +82,7 @@ operation.forEach((button) => {
   });
 });
 
-const equal = document.querySelector('button#equal');
-equal.addEventListener('click', () => {
+const equalFunction = function() {
   //Edge case for not having all three components for calculation
   if (temp == '' || tempOperator == '') {
     return;
@@ -88,9 +95,28 @@ equal.addEventListener('click', () => {
   tempOperator = '';
   temp = '';
   }
+}
+
+let num1 = '';
+let temp = '';
+let tempOperator = ''
+let display = document.querySelector('.display');
+const number = document.querySelectorAll('button.number');
+number.forEach((button) => {
+  button.addEventListener('click', () => {
+    numberFunction(button.innerHTML);
+  });
 });
 
+const operator = document.querySelectorAll('button.operator');
+operator.forEach((button) => {
+  button.addEventListener('click', () => {
+    operatorFunction(button.innerHTML);
+  });
+});
 
+const equal = document.querySelector('button#equal');
+equal.addEventListener('click', equalFunction);
 
 //Deletes number the display number
 const clearEntry = document.querySelector('button#CE'); 
@@ -118,34 +144,12 @@ clearAll.addEventListener('click', () => {
 
 //Deletes last number in display
 const backspace = document.querySelector('button#backspace');
-backspace.addEventListener('click', () => {
-  temp = temp.slice(0, -1);
-  display.innerHTML = temp;
-  console.log(temp);
-});
+backspace.addEventListener('click', backspaceFunction);
 
 //Add decimal point to number
 let dec = /[.]/;
 const decimal = document.querySelector('button#decimal');
-decimal.addEventListener('click', () => {
-    
-    //Edge case for if user presses '=' and starts typing a new number
-    //without having pressed an operator
-    if (num1 !== '' && tempOperator == '') {
-      num1 = '';
-    }
-
-    //If it already has a decimal point, then do nothing
-    if (dec.test(temp)) {
-      return;
-    }
-    //Displays the number being inputted
-    temp += decimal.innerHTML;
-    display.innerHTML = temp;
-})
-
-
-
+decimal.addEventListener('click', decimalFunction);
 
 const operate = function(num1, operator, num2) {
   num1 = parseFloat(num1);
@@ -218,3 +222,27 @@ const squareroot = function(num1) {
 const opposite = function(num1) {
   return num1 * -1;
 }
+
+
+//Listen for keyboard presses
+const numRegex = /[0-9]/;
+window.addEventListener('keydown', function(e) {
+  if (numRegex.test(e.key)) {
+    numberFunction(e.key);
+  }
+  else if (e.key == '/' || e.key == '*' || e.key == '-' || e.key == '+') {
+    operatorFunction(e.key);
+  }
+  else if (e.key == 'Enter') {
+    equalFunction();
+  }
+  else if (e.key == 'Backspace') {
+    backspaceFunction();
+  }
+  else if (e.key == '.') {
+    decimalFunction();
+  }
+  else {
+    return;
+  }
+});
