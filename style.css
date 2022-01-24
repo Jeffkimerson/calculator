@@ -13,16 +13,23 @@ body {
 }
 
 .display {
-    height: 100px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 48px;
+    height: 80px;
+    width: 276px;
     text-align: center;
     margin: auto;
-    background-color: antiquewhite;
+    background-color: gainsboro;
+    border: 2px solid;
 }
 
 button {
     height: 70px;
     width: 70px;
-    background-color: lightgray;
+    font-size: 24px;
+    background-color: lightblue;
 }
 
 .number {
